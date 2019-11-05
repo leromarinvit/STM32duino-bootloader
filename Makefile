@@ -136,6 +136,7 @@ hytiny-stm32f103t: begin clean gccversion build_hytiny-stm32f103t sizeafter fini
 dso138: begin clean gccversion build_dso138 sizeafter finished  copy_dso138 end
 gd32f1-generic-pc13: begin clean gccversion build_gd32f1-generic-pc13 sizeafter finished  copy_gd32f1-generic-pc13 end
 gd32f1-frankenmaple: begin clean gccversion build_gd32f1-frankenmaple sizeafter finished  copy_gd32f1-frankenmaple end
+stinkfan: begin clean gccversion build_stinkfan sizeafter finished  copy_stinkfan end
 
 build: elf bin lss sym
 
@@ -184,6 +185,17 @@ copy_generic-pc13:
 	@echo "Copying to binaries folder"
 	@echo
 	cp $(TARGET).bin bootloader_only_binaries/generic_boot20_pc13.bin
+	@echo
+
+build_stinkfan: TARGETFLAGS= -DTARGET_STINKFAN $(DEFINES)
+# Set the linker script
+build_stinkfan: LDFLAGS +=-T$(ST_LIB)/c_only_md_high_density.ld
+build_stinkfan: elf bin lss sym
+copy_stinkfan:
+	@echo
+	@echo "Copying to binaries folder"
+	@echo
+	cp $(TARGET).bin bootloader_only_binaries/stinkfan_boot20.bin
 	@echo
 
 build_generic-pg15: TARGETFLAGS= -DTARGET_GENERIC_F103_PG15 $(DEFINES)

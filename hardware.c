@@ -117,6 +117,8 @@ void setupCLK(void) {
     /* Configure PLL */
 #ifdef XTAL12M
     SET_REG(RCC_CFGR, GET_REG(RCC_CFGR) | 0x00110400); /* pll=72Mhz(x6),APB1=36Mhz,AHB=72Mhz */
+#elif defined XTAL16M
+    SET_REG(RCC_CFGR, GET_REG(RCC_CFGR) | 0x001F0400); /* pll=72Mhz(/2x9),APB1=36Mhz,AHB=72Mhz */
 #else
     SET_REG(RCC_CFGR, GET_REG(RCC_CFGR) | 0x001D0400); /* pll=72Mhz(x9),APB1=36Mhz,AHB=72Mhz */
 #endif

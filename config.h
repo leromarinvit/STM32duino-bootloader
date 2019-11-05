@@ -159,6 +159,15 @@
     #define BUTTON_PIN 2
     #define BUTTON_PRESSED_STATE 1
 
+#elif defined TARGET_STINKFAN
+
+
+    #define LED_BANK            GPIOC
+    #define LED_PIN             13
+    #define LED_ON_STATE        0
+
+    #define XTAL16M
+
 
 #elif defined TARGET_GENERIC_F103_PG15
 
