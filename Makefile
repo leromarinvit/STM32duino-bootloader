@@ -25,6 +25,7 @@ INCDIRS = ./$(ST_LIB) ./$(ST_USB)
 
 CFLAGS = $(DEBUG)
 CFLAGS += -O$(OPT)
+CFLAGS += -flto
 CFLAGS += -ffunction-sections -fdata-sections
 CFLAGS += -Wall -Wimplicit
 CFLAGS += -Wcast-align
