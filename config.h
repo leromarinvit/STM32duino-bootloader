@@ -162,10 +162,6 @@
 #elif defined TARGET_STINKFAN
 
 
-    #define LED_BANK            GPIOC
-    #define LED_PIN             13
-    #define LED_ON_STATE        0
-
     #define XTAL16M
 
 
