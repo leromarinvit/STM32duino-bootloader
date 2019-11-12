@@ -109,7 +109,8 @@ bool dfuUpdateByRequest(void) {
                         /* make sure the flash is setup properly, unlock it */
                         setupFLASH();
                         flashUnlock();
-                        // Clear lower memory so that we can check on cold boot, whether the last upload was to 0x8002000 or 0x8005000
+                        // Clear lower memory so that we can check on cold boot, whether the last upload was to 0x8001800, 0x8002000 or 0x8005000
+                        flashErasePage((u32)USER_CODE_FLASH0X8001800);
                         flashErasePage((u32)USER_CODE_FLASH0X8002000);
                         bkp10Write(RTC_BOOTLOADER_JUST_UPLOADED);
 
@@ -119,6 +120,19 @@ bool dfuUpdateByRequest(void) {
                     case 2:
                         userUploadType = DFU_UPLOAD_FLASH_0X8002000;
                         userAppAddr = USER_CODE_FLASH0X8002000;
+                        /* make sure the flash is setup properly, unlock it */
+                        setupFLASH();
+                        flashUnlock();
+                        // Clear lower memory so that we can check on cold boot, whether the last upload was to 0x8001800, 0x8002000 or 0x8005000
+                        flashErasePage((u32)USER_CODE_FLASH0X8001800);
+                        bkp10Write(RTC_BOOTLOADER_JUST_UPLOADED);
+
+                        break;
+#endif
+#ifdef ENABLE_FLASH0x8001800
+                    case 3:
+                        userUploadType = DFU_UPLOAD_FLASH_0X8001800;
+                        userAppAddr = USER_CODE_FLASH0X8001800;
                         /* make sure the flash is setup properly, unlock it */
                         setupFLASH();
                         flashUnlock();
@@ -161,6 +175,12 @@ bool dfuUpdateByRequest(void) {
 #ifdef ENABLE_FLASH0x8002000
                 case 2:
                     userAppAddr = USER_CODE_FLASH0X8002000;
+                    userAppEnd = getFlashEnd();
+                    break;
+#endif
+#ifdef ENABLE_FLASH0x8001800
+                case 3:
+                    userAppAddr = USER_CODE_FLASH0X8001800;
                     userAppEnd = getFlashEnd();
                     break;
 #endif
@@ -445,7 +465,7 @@ void dfuCopyBufferToExec() {
         {
             userSpace = (u32 *)(USER_CODE_FLASH0X8005000 + userFirmwareLen);
         }
-#ifdef ENABLE_FLASH0x8002000
+#if defined ENABLE_FLASH0x8002000 || defined ENABLE_FLASH0x8001800
         else
 #endif
 #endif
@@ -453,6 +473,15 @@ void dfuCopyBufferToExec() {
         if (userUploadType == DFU_UPLOAD_FLASH_0X8002000)
         {
             userSpace = (u32 *)(USER_CODE_FLASH0X8002000 + userFirmwareLen);
+        }
+#ifdef ENABLE_FLASH0x8001800
+        else
+#endif
+#endif
+#ifdef ENABLE_FLASH0x8001800
+        if (userUploadType == DFU_UPLOAD_FLASH_0X8001800)
+        {
+            userSpace = (u32 *)(USER_CODE_FLASH0X8001800 + userFirmwareLen);
         }
 #endif
 

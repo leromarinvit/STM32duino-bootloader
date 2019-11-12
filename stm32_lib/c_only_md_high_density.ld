@@ -25,7 +25,7 @@ _Minimum_Stack_Size = 0x100 ;
 MEMORY
 {
   RAM (xrw)     : ORIGIN = 0x20000000, LENGTH = 4K
-  FLASH (rx)    : ORIGIN = 0x08000000, LENGTH = 8K
+  FLASH (rx)    : ORIGIN = 0x08000000, LENGTH = DEFINED(ENABLE_FLASH0x8001800) ? 6K : 8K
 }
 
 /* higher address of the user mode stack */

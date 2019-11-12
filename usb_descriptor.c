@@ -198,6 +198,13 @@ u8 u8_usbStringSerial[USB_SERIAL_STR_LEN] = {
     ALT2_MSG_STR
     };
 
+
+    u8 u8_usbStringAlt3[ALT3_STR_LEN] = {
+    ALT3_STR_LEN,
+    0x03,
+    ALT3_MSG_STR
+    };
+
 u8 u8_usbStringInterface = NULL;
 
 ONE_DESCRIPTOR usbStringDescriptor[STR_DESC_LEN] = {
@@ -212,7 +219,10 @@ ONE_DESCRIPTOR usbStringDescriptor[STR_DESC_LEN] = {
     { (u8 *)u8_usbStringAlt1,    ALT1_STR_LEN },
 #endif
 #ifdef ENABLE_FLASH0x8002000
-    { (u8 *)u8_usbStringAlt2,    ALT2_STR_LEN }
+    { (u8 *)u8_usbStringAlt2,    ALT2_STR_LEN },
+#endif
+#ifdef ENABLE_FLASH0x8001800
+    { (u8 *)u8_usbStringAlt3,    ALT3_STR_LEN },
 #endif
 };
 

@@ -1,11 +1,15 @@
 # Makefile skeleton adapted from Peter Harrison's - www.micromouse.com
 
 # Optional features
+ENABLE_FLASH0x8001800 ?= 0
 ENABLE_FLASH0x8002000 ?= 1
 ENABLE_FLASH0x8005000 ?= 1
 ENABLE_DFU_UPLOAD ?= 1
 ENABLE_ALT_RAM_UPLOAD ?= 1
 
+ifeq ($(ENABLE_FLASH0x8001800),1)
+	DEFINES += -DENABLE_FLASH0x8001800
+endif
 ifeq ($(ENABLE_FLASH0x8002000),1)
 	DEFINES += -DENABLE_FLASH0x8002000
 endif
@@ -58,6 +62,9 @@ ASFLAGS = -Wa,-adhlns=$(BUILDDIR)/$(<:.s=.lst)#,--g$(DEBUG)
 
 LDFLAGS = -nostartfiles -Wl,-Map=$(TARGET).map,--cref,--gc-sections
 LDFLAGS += -lc -lgcc
+ifeq ($(ENABLE_FLASH0x8001800),1)
+	LDFLAGS += -Wl,--defsym=ENABLE_FLASH0x8001800=1
+endif
 
 
 
