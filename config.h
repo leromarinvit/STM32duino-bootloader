@@ -64,6 +64,7 @@
 // Jump locations for legacy bootloader (0x8005000) and new / smaller bootloder (0x8002000)
 #define USER_CODE_FLASH0X8005000    ((u32)0x08005000)
 #define USER_CODE_FLASH0X8002000    ((u32)0x08002000)
+#define USER_CODE_FLASH0X8001800    ((u32)0x08001800)
 
 #define LARGEST_FLASH_PAGE_SIZE 0x800
 

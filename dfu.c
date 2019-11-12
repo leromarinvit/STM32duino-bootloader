@@ -100,6 +100,7 @@ bool dfuUpdateByRequest(void) {
                         userUploadType = DFU_UPLOAD_RAM;
                         break;
                         */
+#ifdef ENABLE_FLASH0x8005000
                     case 1:
 
                         userAppAddr = USER_CODE_FLASH0X8005000;
@@ -113,6 +114,8 @@ bool dfuUpdateByRequest(void) {
                         bkp10Write(RTC_BOOTLOADER_JUST_UPLOADED);
 
                         break;
+#endif
+#ifdef ENABLE_FLASH0x8002000
                     case 2:
                         userUploadType = DFU_UPLOAD_FLASH_0X8002000;
                         userAppAddr = USER_CODE_FLASH0X8002000;
@@ -122,6 +125,7 @@ bool dfuUpdateByRequest(void) {
                         bkp10Write(RTC_BOOTLOADER_JUST_UPLOADED);
 
                         break;
+#endif
                     default:
                     // Roger Clark. Report error
                         dfuAppStatus.bState  = dfuERROR;
@@ -132,6 +136,7 @@ bool dfuUpdateByRequest(void) {
                 dfuAppStatus.bState  = dfuERROR;
                 dfuAppStatus.bStatus = errNOTDONE;
             }
+#ifdef ENABLE_DFU_UPLOAD
         } else if (pInformation->USBbRequest == DFU_UPLOAD) {
             dfuAppStatus.bState  = dfuUPLOAD_IDLE;
             /* record length of first block for calculating target
@@ -147,14 +152,18 @@ bool dfuUpdateByRequest(void) {
                     userAppAddr = USER_CODE_RAM;
                     userAppEnd = RAM_END;
                     */
+#ifdef ENABLE_FLASH0x8005000
                 case 1:
                     userAppAddr = USER_CODE_FLASH0X8005000;
                     userAppEnd = getFlashEnd();
                     break;
+#endif
+#ifdef ENABLE_FLASH0x8002000
                 case 2:
                     userAppAddr = USER_CODE_FLASH0X8002000;
                     userAppEnd = getFlashEnd();
                     break;
+#endif
                 default:
                 // Roger Clark.
                 // Changed this to report error that its unable to write to this memory
@@ -163,6 +172,7 @@ bool dfuUpdateByRequest(void) {
                     dfuAppStatus.bStatus = errWRITE;
                     break;
             }
+#endif
         } else if (pInformation->USBbRequest == DFU_ABORT) {
             dfuAppStatus.bState  = dfuIDLE;
             dfuAppStatus.bStatus = OK;  /* are we really ok? we were just aborted */
@@ -278,6 +288,7 @@ bool dfuUpdateByRequest(void) {
         /* consider timing out and self-resetting */
         dfuAppStatus.bState  = dfuMANIFEST_WAIT_RESET;
 
+#ifdef ENABLE_DFU_UPLOAD
     } else if (startState == dfuUPLOAD_IDLE)         {
         /* device expecting further dfu_upload requests */
 
@@ -312,6 +323,7 @@ bool dfuUpdateByRequest(void) {
             dfuAppStatus.bState  = dfuERROR;
             dfuAppStatus.bStatus = errSTALLEDPKT;
         }
+#endif
 
 
     } else if (startState == dfuERROR)               {
@@ -428,14 +440,21 @@ void dfuCopyBufferToExec() {
     else
 */
     {
+#ifdef ENABLE_FLASH0x8005000
         if (userUploadType == DFU_UPLOAD_FLASH_0X8005000)
         {
             userSpace = (u32 *)(USER_CODE_FLASH0X8005000 + userFirmwareLen);
         }
+#ifdef ENABLE_FLASH0x8002000
         else
+#endif
+#endif
+#ifdef ENABLE_FLASH0x8002000
+        if (userUploadType == DFU_UPLOAD_FLASH_0X8002000)
         {
             userSpace = (u32 *)(USER_CODE_FLASH0X8002000 + userFirmwareLen);
         }
+#endif
 
         flashErasePage((u32)(userSpace));
 

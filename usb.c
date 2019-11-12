@@ -332,9 +332,11 @@ RESULT usbDataSetup(u8 request) {
             case(DFU_DNLOAD):
                 CopyRoutine = dfuCopyDNLOAD;
                 break;
+#ifdef ENABLE_DFU_UPLOAD
             case(DFU_UPLOAD):
                 CopyRoutine = dfuCopyUPLOAD;
                 break;
+#endif
             default:
                 /* leave copy routine null */
                 break;

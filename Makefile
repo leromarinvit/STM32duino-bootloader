@@ -1,5 +1,24 @@
 # Makefile skeleton adapted from Peter Harrison's - www.micromouse.com
 
+# Optional features
+ENABLE_FLASH0x8002000 ?= 1
+ENABLE_FLASH0x8005000 ?= 1
+ENABLE_DFU_UPLOAD ?= 1
+ENABLE_ALT_RAM_UPLOAD ?= 1
+
+ifeq ($(ENABLE_FLASH0x8002000),1)
+	DEFINES += -DENABLE_FLASH0x8002000
+endif
+ifeq ($(ENABLE_FLASH0x8005000),1)
+	DEFINES += -DENABLE_FLASH0x8005000
+endif
+ifeq ($(ENABLE_DFU_UPLOAD),1)
+	DEFINES += -DENABLE_DFU_UPLOAD
+endif
+ifeq ($(ENABLE_ALT_RAM_UPLOAD),1)
+	DEFINES += -DENABLE_ALT_RAM_UPLOAD
+endif
+
 # MCU name and submodel
 MCU      = cortex-m3
 SUBMDL   = stm32f103
