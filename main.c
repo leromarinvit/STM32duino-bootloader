@@ -62,6 +62,8 @@ int main()
 				dont_wait=TRUE;
 			#elif defined (LED_BANK) && defined (LED_PIN)
 				strobePin(LED_BANK, LED_PIN, STARTUP_BLINKS, BLINK_FAST,LED_ON_STATE);
+			#else
+				delay(2 * STARTUP_BLINKS * BLINK_FAST);
 			#endif            
 			if (
 #ifdef ENABLE_FLASH0x8005000
@@ -102,6 +104,8 @@ int main()
 
             #if defined (LED_BANK) && defined (LED_PIN)
             strobePin(LED_BANK, LED_PIN, 1, BLINK_SLOW,LED_ON_STATE);
+			#else
+			delay(2 * BLINK_SLOW);
             #endif
 
             if (dfuUploadStarted())

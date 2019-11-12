@@ -242,6 +242,8 @@ void bkp10Write(u16 value);
 void gpio_write_bit(u32 bank, u8 pin, u8 val);
 unsigned int crMask(int pin);
 
+void delay(u32 c);
+
 bool readPin(u32 bank, u8 pin);
 void strobePin(u32 bank, u8 pin, u8 count, u32 rate,u8 onState);
 

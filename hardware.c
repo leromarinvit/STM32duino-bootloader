@@ -73,24 +73,24 @@ bool readButtonState() {
     return state;
 }
 
+void delay(u32 c)
+{
+    for (; c > 0; c--)
+    {
+        asm volatile("nop");
+    }
+}
+
 void strobePin(u32 bank, u8 pin, u8 count, u32 rate,u8 onState)
 {
     gpio_write_bit( bank,pin,1-onState);
 
-    u32 c;
     while (count-- > 0)
     {
-        for (c = rate; c > 0; c--)
-        {
-            asm volatile("nop");
-        }
-
+        delay(rate);
         gpio_write_bit( bank,pin,onState);
 
-        for (c = rate; c > 0; c--)
-        {
-            asm volatile("nop");
-        }
+        delay(rate);
         gpio_write_bit( bank,pin,1-onState);
     }
 }
