@@ -78,7 +78,7 @@ SECTIONS
  */
 
 /* we copy the important program globals vector in RAM as well, so that users can fool with it */
-  .data  : AT ( _sidata )  /* AT makes the LMA follow on in the binary image */
+  .data  :
     {
 	    . = ALIGN(4);
       _sdata = . ; /* Used by the startup in order to initialize the .data section */
@@ -87,6 +87,7 @@ SECTIONS
 			. = ALIGN(4);
 	    _edata = . ; /* Used by the startup in order to initialize the .data section */
     } >RAM
+    AT >FLASH  /* AT makes the LMA follow on in the binary image */
 
 
 
