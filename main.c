@@ -72,13 +72,13 @@ int main()
 				&&
 #endif
 #endif
-#if ENABLE_FLASH0x8002000
+#ifdef ENABLE_FLASH0x8002000
 				!checkUserCode(USER_CODE_FLASH0X8002000)
 #ifdef ENABLE_FLASH0x8001800
 				&&
 #endif
 #endif
-#if ENABLE_FLASH0x8001800
+#ifdef ENABLE_FLASH0x8001800
 				!checkUserCode(USER_CODE_FLASH0X8001800)
 #endif
 			)
