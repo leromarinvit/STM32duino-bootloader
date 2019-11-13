@@ -110,7 +110,9 @@ bool dfuUpdateByRequest(void) {
                         setupFLASH();
                         flashUnlock();
                         // Clear lower memory so that we can check on cold boot, whether the last upload was to 0x8001800, 0x8002000 or 0x8005000
+#ifdef ENABLE_FLASH0x8001800
                         flashErasePage((u32)USER_CODE_FLASH0X8001800);
+#endif
                         flashErasePage((u32)USER_CODE_FLASH0X8002000);
                         bkp10Write(RTC_BOOTLOADER_JUST_UPLOADED);
 
@@ -124,7 +126,9 @@ bool dfuUpdateByRequest(void) {
                         setupFLASH();
                         flashUnlock();
                         // Clear lower memory so that we can check on cold boot, whether the last upload was to 0x8001800, 0x8002000 or 0x8005000
+#ifdef ENABLE_FLASH0x8001800
                         flashErasePage((u32)USER_CODE_FLASH0X8001800);
+#endif
                         bkp10Write(RTC_BOOTLOADER_JUST_UPLOADED);
 
                         break;
