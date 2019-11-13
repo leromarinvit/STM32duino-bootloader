@@ -212,15 +212,9 @@ ONE_DESCRIPTOR usbStringDescriptor[STR_DESC_LEN] = {
     { (u8 *)u8_usbStringVendor,  USB_VENDOR_STR_LEN },
     { (u8 *)u8_usbStringProduct, USB_PRODUCT_STR_LEN },
     { (u8 *)u8_usbStringSerial,  USB_SERIAL_STR_LEN },
-#ifdef ENABLE_ALT_RAM_UPLOAD
     { (u8 *)u8_usbStringAlt0,    ALT0_STR_LEN },
-#endif
-#ifdef ENABLE_FLASH0x8005000
     { (u8 *)u8_usbStringAlt1,    ALT1_STR_LEN },
-#endif
-#ifdef ENABLE_FLASH0x8002000
     { (u8 *)u8_usbStringAlt2,    ALT2_STR_LEN },
-#endif
 #ifdef ENABLE_FLASH0x8001800
     { (u8 *)u8_usbStringAlt3,    ALT3_STR_LEN },
 #endif
