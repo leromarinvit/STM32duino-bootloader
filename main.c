@@ -115,6 +115,13 @@ int main()
         }
     }
 
+#ifdef ENABLE_FLASH0x8001800
+    if (checkUserCode(USER_CODE_FLASH0X8001800))
+    {
+        jumpToUser(USER_CODE_FLASH0X8001800);
+    }
+    else
+#endif
 #ifdef ENABLE_FLASH0x8002000
     if (checkUserCode(USER_CODE_FLASH0X8002000))
     {
