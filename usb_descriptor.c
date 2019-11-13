@@ -80,7 +80,11 @@ ONE_DESCRIPTOR usbFunctionalDescriptor = {
     0x09
 };
 
+#ifdef ENABLE_FLASH0x8001800
+#define u8_usbConfigDescriptorDFU_LENGTH 54
+#else
 #define u8_usbConfigDescriptorDFU_LENGTH 45
+#endif
 u8 u8_usbConfigDescriptorDFU[u8_usbConfigDescriptorDFU_LENGTH] = {
     0x09,   /* bLength: Configuation Descriptor size */
     0x02,   /* bDescriptorType: Configuration */
@@ -131,6 +135,21 @@ u8 u8_usbConfigDescriptorDFU[u8_usbConfigDescriptorDFU_LENGTH] = {
     0x02,   /* nInterfaceProtocol, switched to 0x02 while in dfu_mode */
 
     0x06,   /* iInterface: */
+
+#ifdef ENABLE_FLASH0x8001800
+    /************ Descriptor of DFU interface 0 Alternate setting 3 *********/
+    0x09,   /* bLength: Interface Descriptor size */
+    0x04,   /* bDescriptorType: */
+    0x00,   /* bInterfaceNumber: Number of Interface */
+    0x03,   /* bAlternateSetting: Alternate setting */
+    0x00,   /* bNumEndpoints*/
+    0xFE,   /* bInterfaceClass: DFU */
+    0x01,   /* bInterfaceSubClass */
+
+    0x02,   /* nInterfaceProtocol, switched to 0x02 while in dfu_mode */
+
+    0x07,   /* iInterface: */
+#endif
 
 
     /******************** DFU Functional Descriptor********************/

@@ -29,8 +29,15 @@
 #include "usb_lib.h"
 #include "usb.h"
 
+#ifdef ENABLE_FLASH0x8001800
+#define NUM_ALT_SETTINGS 4
+#define STR_DESC_LEN 8
+#else
 #define NUM_ALT_SETTINGS 3
 #define STR_DESC_LEN 7
+#endif
+
+#define LEN_DFU_ALT_DESC (NUM_ALT_SETTINGS * 9)
 
 extern ONE_DESCRIPTOR  usbDeviceDescriptorDFU;
 extern ONE_DESCRIPTOR  usbConfigDescriptorDFU;
