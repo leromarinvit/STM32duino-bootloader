@@ -199,7 +199,7 @@ u8 u8_usbStringLangId[USB_STR_LANG_ID_LEN] = {
 
 u8 u8_usbStringInterface = NULL;
 
-#define USB_STR_LEN(s) (sizeof(s) * 2)
+#define USB_STR_LEN(s) (sizeof(struct usbString) + (sizeof(s) - 1) * 2)
 #define DESCRIPTOR(s) { (u8[USB_STR_LEN(s)]){}, USB_STR_LEN(s) }
 
 ONE_DESCRIPTOR usbStringDescriptor[STR_DESC_LEN] = {
@@ -220,9 +220,9 @@ static void makeUsbString(ONE_DESCRIPTOR* desc, const u8 *s) {
     struct usbString *u = (struct usbString *)desc->Descriptor;
     u->type = 3;
     u->len = desc->Descriptor_Size;
-    do {
+    while (*s) {
         u->str[i++] = *s++;
-    } while (*s);
+    }
 }
 
 void initUsbStrings(void) {
