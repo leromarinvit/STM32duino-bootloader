@@ -44,4 +44,6 @@ extern ONE_DESCRIPTOR  usbConfigDescriptorDFU;
 extern ONE_DESCRIPTOR  usbStringDescriptor[STR_DESC_LEN];
 extern ONE_DESCRIPTOR  usbFunctionalDescriptor;
 
+void initUsbStrings(void);
+
 #endif

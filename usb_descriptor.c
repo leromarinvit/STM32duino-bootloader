@@ -171,6 +171,12 @@ ONE_DESCRIPTOR usbConfigDescriptorDFU = {
     u8_usbConfigDescriptorDFU_LENGTH
 };
 
+struct usbString {
+    u8 len;
+    u8 type;
+    u16 str[];
+} __attribute__((packed));
+
 #define USB_STR_LANG_ID_LEN 0x04
 u8 u8_usbStringLangId[USB_STR_LANG_ID_LEN] = {
     USB_STR_LANG_ID_LEN,
@@ -178,64 +184,49 @@ u8 u8_usbStringLangId[USB_STR_LANG_ID_LEN] = {
     0x09,
     0x04    /* LangID = 0x0409: U.S. English */
 };
-#define USB_VENDOR_STR_LEN 0x12
-u8 u8_usbStringVendor[USB_VENDOR_STR_LEN] = {
-    USB_VENDOR_STR_LEN,
-    0x03,
-    'L', 0, 'e', 0, 'a', 0, 'f', 0, 'L', 0, 'a', 0, 'b', 0, 's', 0
-};
-#define USB_PRODUCT_STR_LEN 0x14
-u8 u8_usbStringProduct[USB_PRODUCT_STR_LEN] = {
-    USB_PRODUCT_STR_LEN,
-    0x03,
-    'M', 0, 'a', 0, 'p', 0, 'l', 0, 'e', 0, ' ', 0, '0', 0, '0', 0, '3', 0
-};
-#define USB_SERIAL_STR_LEN 0x10
-u8 u8_usbStringSerial[USB_SERIAL_STR_LEN] = {
-    USB_SERIAL_STR_LEN,
-    0x03,
-    'L', 0, 'L', 0, 'M', 0, ' ', 0, '0', 0, '0', 0, '3', 0
-};
 
-    u8 u8_usbStringAlt0[ALT0_STR_LEN] = {
-    ALT0_STR_LEN,
-    0x03,
-    ALT0_MSG_STR
-    };
+#define USB_VENDOR_STR "LeafLabs"
 
+#define USB_PRODUCT_STR "Maple 003"
 
-    u8 u8_usbStringAlt1[ALT1_STR_LEN] = {
-    ALT1_STR_LEN,
-    0x03,
-    ALT1_MSG_STR
-    };
-
-
-    u8 u8_usbStringAlt2[ALT2_STR_LEN] = {
-    ALT2_STR_LEN,
-    0x03,
-    ALT2_MSG_STR
-    };
-
-
-    u8 u8_usbStringAlt3[ALT3_STR_LEN] = {
-    ALT3_STR_LEN,
-    0x03,
-    ALT3_MSG_STR
-    };
+#define USB_SERIAL_STR "LLM 003"
 
 u8 u8_usbStringInterface = NULL;
 
+#define USB_STR_LEN(s) (sizeof(s) * 2)
+#define DESCRIPTOR(s) { (u8[USB_STR_LEN(s)]){}, USB_STR_LEN(s) }
+
 ONE_DESCRIPTOR usbStringDescriptor[STR_DESC_LEN] = {
     { (u8 *)u8_usbStringLangId,  USB_STR_LANG_ID_LEN },
-    { (u8 *)u8_usbStringVendor,  USB_VENDOR_STR_LEN },
-    { (u8 *)u8_usbStringProduct, USB_PRODUCT_STR_LEN },
-    { (u8 *)u8_usbStringSerial,  USB_SERIAL_STR_LEN },
-    { (u8 *)u8_usbStringAlt0,    ALT0_STR_LEN },
-    { (u8 *)u8_usbStringAlt1,    ALT1_STR_LEN },
-    { (u8 *)u8_usbStringAlt2,    ALT2_STR_LEN },
+    DESCRIPTOR(USB_VENDOR_STR),
+    DESCRIPTOR(USB_PRODUCT_STR),
+    DESCRIPTOR(USB_SERIAL_STR),
+    DESCRIPTOR(ALT0_MSG_STR),
+    DESCRIPTOR(ALT1_MSG_STR),
+    DESCRIPTOR(ALT2_MSG_STR),
 #ifdef ENABLE_FLASH0x8001800
-    { (u8 *)u8_usbStringAlt3,    ALT3_STR_LEN },
+    DESCRIPTOR(ALT3_MSG_STR),
 #endif
 };
 
+static void makeUsbString(ONE_DESCRIPTOR* desc, const u8 *s) {
+    u8 i = 0;
+    struct usbString *u = (struct usbString *)desc->Descriptor;
+    u->type = 3;
+    u->len = desc->Descriptor_Size;
+    do {
+        u->str[i++] = *s++;
+    } while (*s);
+}
+
+void initUsbStrings(void) {
+    makeUsbString(&usbStringDescriptor[1], (const u8*)USB_VENDOR_STR);
+    makeUsbString(&usbStringDescriptor[2], (const u8*)USB_PRODUCT_STR);
+    makeUsbString(&usbStringDescriptor[3], (const u8*)USB_SERIAL_STR);
+    makeUsbString(&usbStringDescriptor[4], (const u8*)ALT0_MSG_STR);
+    makeUsbString(&usbStringDescriptor[5], (const u8*)ALT1_MSG_STR);
+    makeUsbString(&usbStringDescriptor[6], (const u8*)ALT2_MSG_STR);
+#ifdef ENABLE_FLASH0x8001800
+    makeUsbString(&usbStringDescriptor[7], (const u8*)ALT3_MSG_STR);
+#endif
+}

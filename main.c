@@ -43,6 +43,7 @@ int main()
     systemReset(); // peripherals but not PC
     setupCLK();
     setupLEDAndButton();
+    initUsbStrings();
     setupUSB();
     setupFLASH();
 
