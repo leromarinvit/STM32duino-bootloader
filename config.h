@@ -50,13 +50,21 @@
 #define RCC_APB1ENR_BKP_CLK   0x08000000
 
 
+#ifndef ALT0_MSG_STR
 #define ALT0_MSG_STR "STM32duino bootloader v1.0  ERROR. Upload to RAM not supported."
+#endif
 
+#ifndef ALT1_MSG_STR
 #define ALT1_MSG_STR "STM32duino bootloader v1.0  Upload to Flash 0x8005000"
+#endif
 
+#ifndef ALT2_MSG_STR
 #define ALT2_MSG_STR "STM32duino bootloader v1.0  Upload to Flash 0x8002000"
+#endif
 
+#ifndef ALT3_MSG_STR
 #define ALT3_MSG_STR "STM32duino bootloader v1.0  Upload to Flash 0x8001800"
+#endif
 
 // Jump locations for legacy bootloader (0x8005000) and new / smaller bootloder (0x8002000)
 #define USER_CODE_FLASH0X8005000    ((u32)0x08005000)

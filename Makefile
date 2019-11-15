@@ -23,6 +23,28 @@ ifeq ($(ENABLE_ALT_RAM_UPLOAD),1)
 	DEFINES += -DENABLE_ALT_RAM_UPLOAD
 endif
 
+ifneq ($(USB_VENDOR_STR),)
+	DEFINES += -DUSB_VENDOR_STR='"$(USB_VENDOR_STR)"'
+endif
+ifneq ($(USB_PRODUCT_STR),)
+	DEFINES += -DUSB_PRODUCT_STR='"$(USB_PRODUCT_STR)"'
+endif
+ifneq ($(USB_SERIAL_STR),)
+	DEFINES += -DUSB_SERIAL_STR='"$(USB_SERIAL_STR)"'
+endif
+ifneq ($(ALT0_MSG_STR),)
+	DEFINES += -DALT0_MSG_STR='"$(ALT0_MSG_STR)"'
+endif
+ifneq ($(ALT1_MSG_STR),)
+	DEFINES += -DALT1_MSG_STR='"$(ALT1_MSG_STR)"'
+endif
+ifneq ($(ALT1_MSG_STR),)
+	DEFINES += -DALT2_MSG_STR='"$(ALT2_MSG_STR)"'
+endif
+ifneq ($(ALT3_MSG_STR),)
+	DEFINES += -DALT3_MSG_STR='"$(ALT3_MSG_STR)"'
+endif
+
 # MCU name and submodel
 MCU      = cortex-m3
 SUBMDL   = stm32f103

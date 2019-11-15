@@ -185,11 +185,17 @@ u8 u8_usbStringLangId[USB_STR_LANG_ID_LEN] = {
     0x04    /* LangID = 0x0409: U.S. English */
 };
 
+#ifndef USB_VENDOR_STR
 #define USB_VENDOR_STR "LeafLabs"
+#endif
 
+#ifndef USB_PRODUCT_STR
 #define USB_PRODUCT_STR "Maple 003"
+#endif
 
+#ifndef USB_SERIAL_STR
 #define USB_SERIAL_STR "LLM 003"
+#endif
 
 u8 u8_usbStringInterface = NULL;
 
